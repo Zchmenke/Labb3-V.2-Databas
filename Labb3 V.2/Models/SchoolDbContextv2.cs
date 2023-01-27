@@ -5,19 +5,20 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Labb3_V._2.Models
 {
-    public partial class SchoolDbContext : DbContext
+    public partial class SchoolDbContextv2 : DbContext
     {
-        public SchoolDbContext()
+        public SchoolDbContextv2()
         {
         }
 
-        public SchoolDbContext(DbContextOptions<SchoolDbContext> options)
+        public SchoolDbContextv2(DbContextOptions<SchoolDbContextv2> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
+        public virtual DbSet<Grades2test> Grades2tests { get; set; }
         public virtual DbSet<Personel> Personels { get; set; }
         public virtual DbSet<RoleList> RoleLists { get; set; }
         public virtual DbSet<Student> Students { get; set; }
@@ -52,39 +53,47 @@ namespace Labb3_V._2.Models
 
             modelBuilder.Entity<Grade>(entity =>
             {
-                entity.HasKey(e => e.GradesId);
+                entity.HasKey(e => e.StudentGradeId);
 
-                entity.Property(e => e.GradesId)
+                entity.Property(e => e.StudentGradeId)
                     .ValueGeneratedNever()
-                    .HasColumnName("GradesID");
-
-                entity.Property(e => e.English)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                    .HasColumnName("StudentGradeID");
 
                 entity.Property(e => e.GradeDate).HasColumnType("date");
 
                 entity.Property(e => e.GradingTeacher).HasColumnName("Grading Teacher");
+            });
 
-                entity.Property(e => e.History)
+            modelBuilder.Entity<Grades2test>(entity =>
+            {
+                entity.HasKey(e => e.GradeId)
+                    .HasName("PK_Grades 2 test");
+
+                entity.ToTable("Grades2test");
+
+                entity.Property(e => e.GradeId).HasColumnName("GradeID");
+
+                entity.Property(e => e.GradeSub)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Maths)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Gradedate).HasColumnType("date");
 
-                entity.HasOne(d => d.Grades)
-                    .WithOne(p => p.Grade)
-                    .HasForeignKey<Grade>(d => d.GradesId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Students");
+                entity.Property(e => e.GradingTeacher).HasColumnName("Grading teacher");
+
+                entity.Property(e => e.StudentIdgrade).HasColumnName("StudentIDGrade");
 
                 entity.HasOne(d => d.GradingTeacherNavigation)
-                    .WithMany(p => p.Grades)
+                    .WithMany(p => p.Grades2tests)
                     .HasForeignKey(d => d.GradingTeacher)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Personel");
+                    .HasConstraintName("FK_Grades 2 test_Personel");
+
+                entity.HasOne(d => d.StudentIdgradeNavigation)
+                    .WithMany(p => p.Grades2tests)
+                    .HasForeignKey(d => d.StudentIdgrade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Grades 2 test_Students");
             });
 
             modelBuilder.Entity<Personel>(entity =>

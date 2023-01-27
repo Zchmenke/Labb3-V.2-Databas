@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Labb3_V._2.Models
 {
@@ -8,9 +7,9 @@ namespace Labb3_V._2.Models
     {
         public Personel()
         {
-            Grades = new HashSet<Grade>();
+            Grades2tests = new HashSet<Grades2test>();
         }
-        
+
         public int EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,6 +18,6 @@ namespace Labb3_V._2.Models
         public int EmployeeRole { get; set; }
 
         public virtual RoleList EmployeeRoleNavigation { get; set; }
-        public virtual ICollection<Grade> Grades { get; set; }
+        public virtual ICollection<Grades2test> Grades2tests { get; set; }
     }
 }

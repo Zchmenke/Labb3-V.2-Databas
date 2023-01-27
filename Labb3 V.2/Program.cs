@@ -18,7 +18,7 @@ namespace Labb3
         public static void Run()
         {
 
-            SchoolDbContext dbCon = new SchoolDbContext();
+            SchoolDbContextv2 dbCon = new SchoolDbContextv2();
 
            bool loopBool = true;            
             while (loopBool) 
